@@ -1,6 +1,6 @@
 import "./home.css";
 
-function Home({ entrar, registrar, explorar }) {
+function Home({ entrar, registrar, explorar, empresa }) {
   return (
     <main className="home">
 
@@ -26,10 +26,16 @@ function Home({ entrar, registrar, explorar }) {
             Login
           </button>
 
+          <button
+            className="login-button"
+            onClick={empresa}
+          >
+            Painel da Empresa
+          </button>
+
         </div>
 
       </nav>
-
 
       <section className="home-content">
 
@@ -64,6 +70,13 @@ function Home({ entrar, registrar, explorar }) {
             onClick={explorar}
           >
             Explorar
+          </button>
+
+          <button
+            className="login-button"
+            onClick={empresa}
+          >
+            Painel da Empresa
           </button>
 
         </div>

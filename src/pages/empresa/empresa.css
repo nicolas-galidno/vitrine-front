@@ -1,0 +1,209 @@
+.empresa-page {
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+}
+
+.empresa-navbar {
+  height: 80px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #222;
+}
+
+.empresa-logo {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.empresa-nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.empresa-nav-links button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.empresa-content {
+  width: 86%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 60px 0;
+}
+
+.empresa-content h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.empresa-subtitle {
+  color: #999;
+  margin-bottom: 40px;
+}
+
+.empresa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111;
+  border: 1px solid #292929;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 25px;
+}
+
+.empresa-header h2 {
+  margin-bottom: 8px;
+}
+
+.empresa-header p {
+  color: #999;
+}
+
+.premium-badge {
+  border: 1px solid #fff;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.empresa-menu {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.empresa-menu-item {
+  text-align: left;
+  background: #111;
+  border: 1px solid #292929;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.empresa-menu-item:hover,
+.empresa-menu-item.active {
+  border-color: #fff;
+}
+
+.empresa-menu-item strong {
+  display: block;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.empresa-menu-item span {
+  color: #888;
+  font-size: 13px;
+}
+
+.produto-section {
+  margin-top: 45px;
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-title h2 {
+  margin-bottom: 7px;
+}
+
+.section-title p {
+  color: #888;
+}
+
+.add-product {
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 13px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.produto-form {
+  background: #111;
+  border: 1px solid #292929;
+  border-radius: 12px;
+  padding: 25px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-field label {
+  font-size: 14px;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  background: #000;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 7px;
+  padding: 13px;
+  font-size: 14px;
+}
+
+.form-field textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+.form-field.full {
+  grid-column: 1 / 3;
+}
+
+.publish-button {
+  align-self: end;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 7px;
+  padding: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@media (max-width: 800px) {
+  .empresa-menu {
+    grid-template-columns: 1fr;
+  }
+
+  .produto-form {
+    grid-template-columns: 1fr;
+  }
+
+  .form-field.full {
+    grid-column: auto;
+  }
+
+  .empresa-header,
+  .section-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}

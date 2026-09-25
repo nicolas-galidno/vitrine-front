@@ -1,145 +1,101 @@
 import "./explorar.css";
 
-function Explorar({ inicio }) {
-    return (
-        <main className="explorar">
+function Explorar({ inicio, perfilEmpresa }) {
+  return (
+    <div className="explorar-page">
 
-            <nav className="explorar-navbar">
+      <nav className="explorar-navbar">
+        <div className="logo">Vitrine</div>
 
-                <div className="explorar-logo">
-                    Vitrine
-                </div>
+        <div className="nav-links">
+          <button onClick={inicio}>Início</button>
+          <button>Explorar</button>
+          <button>Favoritos</button>
+          <button>Usuário</button>
+        </div>
+      </nav>
 
-                <div className="explorar-menu">
+      <main className="explorar-content">
 
-                    <button onClick={inicio}>
-                        Início
-                    </button>
+        <h1>Encontre estabelecimentos<br />e serviços locais</h1>
 
-                    <button>
-                        Explorar
-                    </button>
+        <p className="explorar-description">
+          Encontre empresas, produtos e serviços próximos de você.
+        </p>
 
-                    <button>
-                        Favoritos
-                    </button>
+        <div className="search-area">
+          <input
+            type="text"
+            placeholder="Pesquise por empresa, serviço ou categoria"
+          />
 
-                    <button>
-                        Usuário
-                    </button>
+          <button>Pesquisar</button>
+        </div>
 
-                </div>
+        <h2>Categorias</h2>
 
-            </nav>
+        <div className="categories">
+          <button>Serviços Técnicos</button>
+          <button>Vestuário & Moda</button>
+          <button>Beleza & Estética</button>
+          <button>Alimentação</button>
+        </div>
 
+        <h2>Empresas em destaque</h2>
 
-            <section className="explorar-content">
+        <div className="business-grid">
 
-                <div className="explorar-header">
+          <div className="business-card">
+            <div className="business-image">
+              Foto da empresa
+            </div>
 
-                    <h1>
-                        Encontre estabelecimentos
-                        <br />
-                        e serviços locais
-                    </h1>
+            <div className="business-info">
+              <h3>Freddy Fazbear Pizzaria</h3>
+              <span>Pizzaria • Barueri, SP</span>
 
-                    <p>
-                        Encontre produtos, serviços e estabelecimentos
-                        próximos de você.
-                    </p>
+              <p>
+                Uma pizzaria local com produtos e serviços para seus clientes.
+              </p>
 
-                </div>
+              <div className="business-rating">
+                ★ 3.45 (67 avaliações)
+              </div>
 
+              <button onClick={() => perfilEmpresa("freddy")}>
+                Ver perfil e catálogo
+              </button>
+            </div>
+          </div>
 
-                <div className="pesquisa">
+          <div className="business-card">
+            <div className="business-image">
+              Foto da empresa
+            </div>
 
-                    <input
-                        type="text"
-                        placeholder="O que você está procurando?"
-                    />
+            <div className="business-info">
+              <h3>The Monica Club</h3>
+              <span>Pizzaria • São Paulo, SP</span>
 
-                    <button>
-                        Pesquisar
-                    </button>
+              <p>
+                Conheça os produtos e serviços oferecidos por esta empresa.
+              </p>
 
-                </div>
+              <div className="business-rating">
+                ★ 4.3 (401 avaliações)
+              </div>
 
+              <button onClick={() => perfilEmpresa("monica")}>
+                Ver perfil e catálogo
+              </button>
+            </div>
+          </div>
 
-                <section className="categorias">
+        </div>
 
-                    <h2>
-                        Categorias
-                    </h2>
-
-                    <div className="categorias-lista">
-
-                        <button>
-                            Serviços Técnicos
-                        </button>
-
-                        <button>
-                            Vestuário & Moda
-                        </button>
-
-                        <button>
-                            Beleza & Estética
-                        </button>
-
-                        <button>
-                            Alimentação
-                        </button>
-
-                    </div>
-
-                </section>
-
-
-                <section className="destaques">
-
-                    <h2>
-                        Estabelecimentos em destaque
-                    </h2>
-
-                    <div className="destaques-lista">
-
-                        <div className="estabelecimento">
-                            <h3>
-                                Estabelecimento 1
-                            </h3>
-
-                            <p>
-                                Descrição do estabelecimento.
-                            </p>
-                        </div>
-
-                        <div className="estabelecimento">
-                            <h3>
-                                Estabelecimento 2
-                            </h3>
-
-                            <p>
-                                Descrição do estabelecimento.
-                            </p>
-                        </div>
-
-                        <div className="estabelecimento">
-                            <h3>
-                                Estabelecimento 3
-                            </h3>
-
-                            <p>
-                                Descrição do estabelecimento.
-                            </p>
-                        </div>
-
-                    </div>
-
-                </section>
-
-            </section>
-
-        </main>
-    );
+      </main>
+    </div>
+  );
 }
 
 export default Explorar;

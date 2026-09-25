@@ -4,9 +4,12 @@ import Home from "./pages/home/home";
 import Login from "./pages/login/login";
 import Cadastro from "./pages/cadastro/cadastro";
 import Explorar from "./pages/explorar/explorar";
+import Empresa from "./pages/empresa/empresa";
+import PerfilEmpresa from "./pages/perfilEmpresa/perfilEmpresa";
 
 function App() {
   const [pagina, setPagina] = useState("home");
+  const [empresaSelecionada, setEmpresaSelecionada] = useState("freddy");
 
   if (pagina === "login") {
     return (
@@ -30,6 +33,27 @@ function App() {
     return (
       <Explorar
         inicio={() => setPagina("home")}
+        perfilEmpresa={(empresa) => {
+          setEmpresaSelecionada(empresa);
+          setPagina("perfilEmpresa");
+        }}
+      />
+    );
+  }
+
+  if (pagina === "empresa") {
+    return (
+      <Empresa
+        inicio={() => setPagina("home")}
+      />
+    );
+  }
+
+  if (pagina === "perfilEmpresa") {
+    return (
+      <PerfilEmpresa
+        voltar={() => setPagina("explorar")}
+        empresa={empresaSelecionada}
       />
     );
   }
@@ -39,6 +63,7 @@ function App() {
       entrar={() => setPagina("login")}
       registrar={() => setPagina("cadastro")}
       explorar={() => setPagina("explorar")}
+      empresa={() => setPagina("empresa")}
     />
   );
 }
