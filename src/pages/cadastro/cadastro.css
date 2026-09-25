@@ -1,0 +1,207 @@
+.cadastro {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px 20px;
+}
+
+.cadastro-container {
+  width: 100%;
+  max-width: 550px;
+}
+
+
+/* CABEÇALHO */
+
+.cadastro-header {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.cadastro-logo {
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 45px;
+}
+
+.cadastro-header h1 {
+  font-size: 42px;
+  font-weight: 700;
+  margin: 0 0 15px;
+}
+
+.cadastro-header p {
+  font-size: 18px;
+  margin: 0;
+}
+
+
+/* FORMULÁRIO */
+
+.cadastro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-group label {
+  font-size: 18px;
+}
+
+.input-group input {
+  width: 100%;
+  height: 55px;
+
+  padding: 0 18px;
+
+  background-color: #000;
+  color: #fff;
+
+  border: 2px solid #fff;
+  border-radius: 10px;
+
+  font-size: 16px;
+
+  outline: none;
+}
+
+.input-group input::placeholder {
+  color: #aaa;
+}
+
+.input-group input:focus {
+  border-color: #ccc;
+}
+
+
+/* TIPO DE CONTA */
+
+.tipo-conta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tipo-conta p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.tipo-conta-botoes {
+  display: flex;
+  gap: 15px;
+}
+
+.tipo-conta-button {
+  flex: 1;
+
+  height: 55px;
+
+  background-color: #000;
+  color: #fff;
+
+  border: 2px solid #fff;
+  border-radius: 10px;
+
+  font-size: 16px;
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.tipo-conta-button:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+
+/* BOTÃO CRIAR CONTA */
+
+.cadastro-submit {
+  width: 100%;
+  height: 60px;
+
+  background-color: #fff;
+  color: #000;
+
+  border: 2px solid #fff;
+  border-radius: 10px;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.cadastro-submit:hover {
+  transform: translateY(-2px);
+}
+
+
+/* LOGIN */
+
+.cadastro-login {
+  margin-top: 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 16px;
+}
+
+.cadastro-login button {
+  background: none;
+  border: none;
+
+  color: #fff;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 600px) {
+
+  .cadastro {
+    padding: 30px 20px;
+  }
+
+  .cadastro-header h1 {
+    font-size: 34px;
+  }
+
+  .tipo-conta-botoes {
+    flex-direction: column;
+  }
+
+  .tipo-conta-button {
+    width: 100%;
+  }
+}
+
+.tipo-conta-button.selecionado {
+  background-color: #fff;
+  color: #000;
+}

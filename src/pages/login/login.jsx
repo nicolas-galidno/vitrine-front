@@ -1,6 +1,6 @@
 import "./login.css";
 
-function Login({ voltar }) {
+function Login({ voltar, cadastro }) {
   return (
     <main className="login">
 
@@ -64,15 +64,13 @@ function Login({ voltar }) {
 
 
         <div className="login-register">
-
           <span>
             Ainda não possui uma conta?
           </span>
 
-          <button>
+          <button onClick={cadastro}>
             Criar agora
           </button>
-
         </div>
 
 

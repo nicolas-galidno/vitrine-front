@@ -1,16 +1,21 @@
 import "./home.css";
 
-function Home({ entrar }) {
+function Home({ entrar, registrar, explorar }) {
   return (
     <main className="home">
 
       <nav className="navbar">
+
         <div className="navbar-logo">
           Vitrine
         </div>
 
         <div className="navbar-buttons">
-          <button className="navbar-register">
+
+          <button
+            className="navbar-register"
+            onClick={registrar}
+          >
             Registrar
           </button>
 
@@ -20,8 +25,11 @@ function Home({ entrar }) {
           >
             Login
           </button>
+
         </div>
+
       </nav>
+
 
       <section className="home-content">
 
@@ -37,7 +45,10 @@ function Home({ entrar }) {
 
         <div className="home-buttons">
 
-          <button className="register-button">
+          <button
+            className="register-button"
+            onClick={registrar}
+          >
             Registrar
           </button>
 
@@ -46,6 +57,13 @@ function Home({ entrar }) {
             onClick={entrar}
           >
             Login
+          </button>
+
+          <button
+            className="login-button"
+            onClick={explorar}
+          >
+            Explorar
           </button>
 
         </div>
