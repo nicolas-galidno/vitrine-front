@@ -10,7 +10,7 @@ function PerfilEmpresa({ voltar, empresa }) {
             nota: "3.45",
             avaliacoes: "67 avaliações",
             descricao:
-                "Uma pizzaria local com produtos e serviços para seus clientes.",
+                "Uma pizzaria local com animatrônicos divertidos!",
             produtos: [
                 {
                     nome: "Pizza Especial",
