@@ -1,130 +1,38 @@
+import { useState } from "react";
 import "./empresa.css";
 
-function Empresa({ inicio }) {
-  return (
-    <div className="empresa-page">
-
-      <nav className="empresa-navbar">
-        <div className="empresa-logo">Vitrine</div>
-
-        <div className="empresa-nav-links">
-          <button onClick={inicio}>Início</button>
-          <button>Explorar</button>
-          <button>Favoritos</button>
-          <button>Usuário</button>
-        </div>
-      </nav>
-
-      <main className="empresa-content">
-
-        <h1>PAINEL DA EMPRESA</h1>
-
-        <p className="empresa-subtitle">
-          Gerencie sua empresa e seus produtos.
-        </p>
-
-        <section className="empresa-header">
-          <div>
-            <h2>Minha Empresa</h2>
-            <p>Gerencie as informações do seu estabelecimento.</p>
-          </div>
-
-          <span className="premium-badge">PLANO PREMIUM</span>
-        </section>
-
-        <div className="empresa-menu">
-
-          <button className="empresa-menu-item active">
-            <strong>Visão Geral</strong>
-            <span>Visualize as principais informações da empresa.</span>
-          </button>
-
-          <button className="empresa-menu-item">
-            <strong>Perfil Empresarial</strong>
-            <span>Edite as informações do seu estabelecimento.</span>
-          </button>
-
-          <button className="empresa-menu-item">
-            <strong>Meus Produtos</strong>
-            <span>Adicione e gerencie produtos e serviços.</span>
-          </button>
-
-          <button className="empresa-menu-item">
-            <strong>Avaliações</strong>
-            <span>Visualize as avaliações dos clientes.</span>
-          </button>
-
-          <button className="empresa-menu-item">
-            <strong>Plano Premium</strong>
-            <span>Confira os recursos disponíveis para sua empresa.</span>
-          </button>
-
-          <button className="empresa-menu-item">
-            <strong>Configurações</strong>
-            <span>Configure sua conta e preferências.</span>
-          </button>
-
-        </div>
-
-        <section className="produto-section">
-
-          <div className="section-title">
-            <div>
-              <h2>Meus Produtos</h2>
-              <p>Produtos e serviços publicados no catálogo.</p>
-            </div>
-
-            <button className="add-product">
-              + Adicionar produto
-            </button>
-          </div>
-
-          <div className="produto-form">
-
-            <div className="form-field">
-              <label>Nome do produto ou serviço</label>
-              <input type="text" placeholder="Digite o nome" />
-            </div>
-
-            <div className="form-field">
-              <label>Preço</label>
-              <input type="text" placeholder="R$ 0,00" />
-            </div>
-
-            <div className="form-field">
-              <label>Categoria</label>
-              <select>
-                <option>Selecione uma categoria</option>
-                <option>Serviços Técnicos</option>
-                <option>Vestuário & Moda</option>
-                <option>Beleza & Estética</option>
-                <option>Alimentação</option>
-              </select>
-            </div>
-
-            <div className="form-field full">
-              <label>Descrição detalhada</label>
-              <textarea
-                placeholder="Descreva seu produto ou serviço"
-              ></textarea>
-            </div>
-
-            <div className="form-field">
-              <label>Foto</label>
-              <input type="file" />
-            </div>
-
-            <button className="publish-button">
-              Publicar Item no Catálogo
-            </button>
-
-          </div>
-
-        </section>
-
+const menu = [
+  { id: "visao", icon: "▦", title: "Visão geral", desc: "Resumo da sua empresa" },
+  { id: "perfil", icon: "◇", title: "Perfil empresarial", desc: "Dados e apresentação" },
+  { id: "produtos", icon: "▤", title: "Meus produtos", desc: "Catálogo de itens" },
+  { id: "avaliacoes", icon: "☆", title: "Avaliações", desc: "Opiniões dos clientes" },
+  { id: "plano", icon: "✦", title: "Plano Premium", desc: "Recursos e benefícios" },
+  { id: "config", icon: "⚙", title: "Configurações", desc: "Preferências da conta" },
+];
+function Empresa({ inicio, explorar, usuario }) {
+  const [secao, setSecao] = useState("visao");
+  const [empresa, setEmpresa] = useState({ nome: "Minha Empresa", categoria: "Alimentação", cidade: "Barueri", estado: "SP", telefone: "", descricao: "Conte um pouco sobre sua empresa e o que torna seus produtos ou serviços especiais." });
+  const [produtos, setProdutos] = useState([]);
+  const [formAberto, setFormAberto] = useState(false);
+  const [produto, setProduto] = useState({ nome: "", preco: "", categoria: "", descricao: "" });
+  const [mensagem, setMensagem] = useState("");
+  const [config, setConfig] = useState({ notificacoes: true, perfilPublico: true });
+  function salvarPerfil(e) { e.preventDefault(); setMensagem("Alterações mantidas nesta demonstração. A gravação no banco será ativada com a API."); }
+  function publicarProduto(e) { e.preventDefault(); if (!produto.nome.trim()) return; setProdutos((itens)=>[...itens,{...produto,id:Date.now()}]); setProduto({nome:"",preco:"",categoria:"",descricao:""}); setFormAberto(false); setMensagem("Item adicionado à prévia do catálogo. A publicação definitiva depende da API de produtos."); }
+  const titulo = menu.find((item)=>item.id===secao)?.title || "Visão geral";
+  return <div className="dashboard-page">
+    <nav className="dashboard-navbar"><button className="brand-mark" onClick={inicio}>Vitrine<span>.</span></button><div className="dashboard-top-links"><button onClick={inicio}>Início</button><button onClick={explorar}>Explorar</button><button onClick={usuario}>Minha conta</button></div><button className="dashboard-avatar" onClick={usuario} aria-label="Abrir conta">{(empresa.nome||"M").slice(0,1).toUpperCase()}</button></nav>
+    <div className="dashboard-shell"><aside className="dashboard-sidebar"><div className="sidebar-heading"><span>ÁREA DO EMPREENDEDOR</span><strong>Meu espaço</strong></div><div className="sidebar-menu">{menu.map((item)=><button key={item.id} className={secao===item.id?"sidebar-item active":"sidebar-item"} onClick={()=>{setSecao(item.id);setMensagem("");}}><span className="sidebar-icon">{item.icon}</span><span><strong>{item.title}</strong><small>{item.desc}</small></span><b>›</b></button>)}</div><div className="sidebar-help"><span>Precisa de ajuda?</span><p>Organize seu perfil e deixe seu negócio mais fácil de encontrar.</p><button onClick={explorar}>Ver como cliente ↗</button></div></aside>
+      <main className="dashboard-main"><div className="dashboard-breadcrumb">Painel <span>/</span> {titulo}</div><header className="dashboard-title"><div><span className="eyebrow"><span className="eyebrow-dot"/> SEU NEGÓCIO NO VITRINE</span><h1>{secao==="visao"?"Visão geral":titulo}</h1><p>Acompanhe e gerencie a presença da sua empresa na plataforma.</p></div><span className="plan-pill"><span/> Plano gratuito</span></header>
+        {mensagem&&<p className="dashboard-message" role="status">{mensagem}</p>}
+        {secao==="visao"&&<><section className="welcome-panel"><div><span className="welcome-label">BEM-VINDO AO SEU PAINEL</span><h2>Vamos dar mais visibilidade<br/>ao seu negócio.</h2><p>Complete o perfil da sua empresa e comece a montar seu catálogo.</p><button className="button-light" onClick={()=>setSecao("perfil")}>Completar perfil <span>↗</span></button></div><div className="welcome-mark">V.</div></section><div className="dashboard-stats"><article><span>Perfil empresarial</span><strong>{empresa.nome==="Minha Empresa"?"Em construção":"Em edição"}</strong><small>Informações da empresa</small></article><article><span>Itens no catálogo</span><strong>{produtos.length.toString().padStart(2,"0")}</strong><small>Produtos e serviços adicionados</small></article><article><span>Avaliações</span><strong>—</strong><small>Integração ainda não disponível</small></article></div><section className="dashboard-section"><div className="dashboard-section-heading"><div><h2>Próximos passos</h2><p>Deixe seu espaço pronto para receber clientes.</p></div></div><div className="next-step-list"><button onClick={()=>setSecao("perfil")}><span className="step-icon">01</span><span><strong>Preencha o perfil empresarial</strong><small>Adicione descrição, categoria e localização.</small></span><b>↗</b></button><button onClick={()=>{setSecao("produtos");setFormAberto(true);}}><span className="step-icon">02</span><span><strong>Adicione produtos ou serviços</strong><small>Monte um catálogo para apresentar suas ofertas.</small></span><b>↗</b></button><button onClick={()=>setSecao("plano")}><span className="step-icon">03</span><span><strong>Conheça o plano Premium</strong><small>Veja as opções de destaque para sua empresa.</small></span><b>↗</b></button></div></section></>}
+        {secao==="perfil"&&<section className="dashboard-section"><div className="dashboard-section-heading"><div><h2>Perfil empresarial</h2><p>Essas informações ajudam os clientes a conhecer seu negócio.</p></div></div><form className="dashboard-form" onSubmit={salvarPerfil}><label className="wide">Nome da empresa<input required value={empresa.nome} onChange={(e)=>setEmpresa({...empresa,nome:e.target.value})} placeholder="Ex.: Café da Praça"/></label><label>Categoria<select value={empresa.categoria} onChange={(e)=>setEmpresa({...empresa,categoria:e.target.value})}><option>Alimentação</option><option>Beleza & Estética</option><option>Vestuário & Moda</option><option>Serviços Técnicos</option><option>Educação</option><option>Outros</option></select></label><label>Telefone de contato<input value={empresa.telefone} onChange={(e)=>setEmpresa({...empresa,telefone:e.target.value})} placeholder="(11) 00000-0000"/></label><label>Cidade<input value={empresa.cidade} onChange={(e)=>setEmpresa({...empresa,cidade:e.target.value})} placeholder="Sua cidade"/></label><label>Estado<input value={empresa.estado} onChange={(e)=>setEmpresa({...empresa,estado:e.target.value})} placeholder="UF" maxLength={2}/></label><label className="wide">Descrição<textarea value={empresa.descricao} onChange={(e)=>setEmpresa({...empresa,descricao:e.target.value})} rows="5" placeholder="Conte a história e os diferenciais da empresa"/></label><div className="form-actions wide"><button type="button" className="button-outline" onClick={()=>setSecao("visao")}>Cancelar</button><button className="button-light" type="submit">Salvar alterações ↗</button></div></form></section>}
+        {secao==="produtos"&&<section className="dashboard-section"><div className="dashboard-section-heading"><div><h2>Meus produtos e serviços</h2><p>Organize os itens que aparecem no catálogo da sua empresa.</p></div><button className="button-light" onClick={()=>setFormAberto(!formAberto)}>{formAberto?"Cancelar":"＋ Adicionar item"}</button></div>{formAberto&&<form className="dashboard-form product-editor" onSubmit={publicarProduto}><label>Nome do item<input required value={produto.nome} onChange={(e)=>setProduto({...produto,nome:e.target.value})} placeholder="Ex.: Café especial"/></label><label>Preço (R$)<input value={produto.preco} onChange={(e)=>setProduto({...produto,preco:e.target.value})} placeholder="Ex.: 18,90"/></label><label>Categoria<select value={produto.categoria} onChange={(e)=>setProduto({...produto,categoria:e.target.value})}><option value="">Selecione</option><option>Produto</option><option>Serviço</option></select></label><label className="wide">Descrição<textarea value={produto.descricao} onChange={(e)=>setProduto({...produto,descricao:e.target.value})} rows="3" placeholder="Descreva o item"/></label><div className="form-actions wide"><button className="button-light" type="submit">Adicionar à prévia ↗</button></div></form>}{produtos.length===0&&!formAberto?<div className="empty-state"><span>▤</span><h3>Seu catálogo começa aqui</h3><p>Adicione produtos ou serviços para organizar o que sua empresa oferece.</p><button className="button-outline" onClick={()=>setFormAberto(true)}>Adicionar primeiro item</button></div>:<div className="dashboard-product-list">{produtos.map((item)=><article key={item.id}><div className="product-placeholder">{item.categoria==="Serviço"?"↗":"▧"}</div><div><strong>{item.nome}</strong><p>{item.descricao||"Sem descrição informada."}</p><small>{item.categoria||"Item do catálogo"}</small></div><b>{item.preco?`R$ ${item.preco}`:"Preço a consultar"}</b><button className="remove-item" onClick={()=>setProdutos((itens)=>itens.filter((p)=>p.id!==item.id))} aria-label={`Remover ${item.nome}`}>×</button></article>)}</div>}</section>}
+        {secao==="avaliacoes"&&<section className="dashboard-section"><div className="dashboard-section-heading"><div><h2>Avaliações dos clientes</h2><p>Acompanhe a reputação do seu negócio.</p></div></div><div className="empty-state"><span>☆</span><h3>As avaliações aparecerão aqui</h3><p>O back-end de avaliações ainda não está disponível. Quando a integração estiver pronta, você poderá acompanhar as opiniões dos clientes nesta área.</p></div></section>}
+        {secao==="plano"&&<section className="dashboard-section"><div className="dashboard-section-heading"><div><h2>Escolha como destacar seu negócio</h2><p>Conheça os recursos previstos para cada modalidade.</p></div></div><div className="plan-grid"><article className="plan-card"><span className="plan-kicker">PARA COMEÇAR</span><h3>Gratuito</h3><p className="plan-price">R$ 0 <small>/ sempre</small></p><p>Uma presença simples para apresentar sua empresa.</p><ul><li>Perfil empresarial</li><li>Divulgação de produtos e serviços</li><li>Presença nas pesquisas</li></ul><button className="button-outline" disabled>Plano atual</button></article><article className="plan-card featured"><span className="plan-kicker">MAIS VISIBILIDADE</span><h3>Premium <span>✦</span></h3><p className="plan-price">Em breve</p><p>Recursos extras para dar mais destaque ao seu negócio.</p><ul><li>Destaque nas pesquisas</li><li>Mais espaço para fotos</li><li>Selo de verificação previsto</li></ul><button className="button-light" onClick={()=>setMensagem("Os planos Premium ainda não estão disponíveis para contratação.")}>Tenho interesse ↗</button></article></div><p className="dashboard-note">Os recursos e valores comerciais ainda serão definidos pela equipe do projeto.</p></section>}
+        {secao==="config"&&<section className="dashboard-section"><div className="dashboard-section-heading"><div><h2>Configurações</h2><p>Personalize algumas preferências desta demonstração.</p></div></div><div className="settings-list"><label><span><strong>Perfil público</strong><small>Permitir que a empresa apareça na exploração.</small></span><input type="checkbox" checked={config.perfilPublico} onChange={(e)=>setConfig({...config,perfilPublico:e.target.checked})}/></label><label><span><strong>Notificações</strong><small>Receber avisos sobre novidades da plataforma.</small></span><input type="checkbox" checked={config.notificacoes} onChange={(e)=>setConfig({...config,notificacoes:e.target.checked})}/></label><div className="settings-warning"><strong>Conta e segurança</strong><p>Alterações de senha e exclusão de conta precisam ser conectadas ao serviço de usuários do back-end.</p></div><button className="button-light" onClick={()=>setMensagem("Preferências atualizadas nesta demonstração.")}>Salvar preferências ↗</button></div></section>}
       </main>
     </div>
-  );
+  </div>;
 }
-
 export default Empresa;
