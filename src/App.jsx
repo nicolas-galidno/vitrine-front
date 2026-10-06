@@ -9,7 +9,7 @@ import PerfilEmpresa from "./pages/perfilEmpresa/perfilEmpresa";
 
 function App() {
   const [pagina, setPagina] = useState("home");
-  const [empresaSelecionada, setEmpresaSelecionada] = useState("freddy");
+  const [empresaSelecionada, setEmpresaSelecionada] = useState(null);
 
   if (pagina === "login") {
     return (

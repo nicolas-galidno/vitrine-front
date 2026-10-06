@@ -58,7 +58,19 @@ function PerfilEmpresa({ voltar, empresa }) {
         }
     };
 
-    const empresaAtual = dados[empresa] || dados.freddy;
+    const empresaAtual = empresa && typeof empresa === "object"
+        ? {
+            nome: empresa.nome || "Empresa",
+            categoria: empresa.categoria?.nome || "Categoria não informada",
+            local: empresa.cidade?.nome
+                ? `${empresa.cidade.nome}${empresa.cidade.estado?.sigla ? `, ${empresa.cidade.estado.sigla}` : ""}`
+                : "Localização não informada",
+            descricao: empresa.descricao || "Conheça os produtos e serviços oferecidos por esta empresa.",
+            nota: null,
+            avaliacoes: "Ainda sem avaliações cadastradas",
+            produtos: [],
+        }
+        : (dados[empresa] || dados.freddy);
 
     return (
         <div className="perfil-page">
@@ -107,11 +119,8 @@ function PerfilEmpresa({ voltar, empresa }) {
                     </p>
 
                     <div className="empresa-rating">
-                        ★ {empresaAtual.nota}
-
-                        <span>
-                            {empresaAtual.avaliacoes}
-                        </span>
+                        {empresaAtual.nota ? `★ ${empresaAtual.nota}` : "Avaliações"}
+                        <span>{empresaAtual.avaliacoes}</span>
                     </div>
 
                 </section>
@@ -121,6 +130,10 @@ function PerfilEmpresa({ voltar, empresa }) {
                     <h2>Produtos e Serviços</h2>
 
                     <div className="catalog-grid">
+
+                        {empresaAtual.produtos.length === 0 && (
+                            <p>O catálogo de produtos e serviços ainda não está conectado à API do Vitrine.</p>
+                        )}
 
                         {empresaAtual.produtos.map((produto, index) => (
 
@@ -158,33 +171,22 @@ function PerfilEmpresa({ voltar, empresa }) {
 
                     <h2>Avaliações</h2>
 
-                    <div className="review-card">
-
-                        <strong>Cliente Vitrine</strong>
-
-                        <div className="review-stars">
-                            ★★★★★
-                        </div>
-
-                        <p>
-                            Ótimo atendimento e produtos de qualidade.
-                        </p>
-
-                    </div>
-
-                    <div className="review-card">
-
-                        <strong>Cliente Vitrine</strong>
-
-                        <div className="review-stars">
-                            ★★★★☆
-                        </div>
-
-                        <p>
-                            Boa experiência e atendimento.
-                        </p>
-
-                    </div>
+                    {empresa && typeof empresa === "object" ? (
+                        <p>A API de avaliações ainda não está disponível no back-end.</p>
+                    ) : (
+                        <>
+                            <div className="review-card">
+                                <strong>Cliente Vitrine</strong>
+                                <div className="review-stars">★★★★★</div>
+                                <p>Ótimo atendimento e produtos de qualidade.</p>
+                            </div>
+                            <div className="review-card">
+                                <strong>Cliente Vitrine</strong>
+                                <div className="review-stars">★★★★☆</div>
+                                <p>Boa experiência e atendimento.</p>
+                            </div>
+                        </>
+                    )}
 
                 </section>
 

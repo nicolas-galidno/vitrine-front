@@ -1,98 +1,102 @@
+import { useEffect, useMemo, useState } from "react";
+import api from "../../services/api";
 import "./explorar.css";
 
 function Explorar({ inicio, perfilEmpresa }) {
+  const [empresas, setEmpresas] = useState([]);
+  const [pesquisa, setPesquisa] = useState("");
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState("");
+
+  useEffect(() => {
+    let ativo = true;
+
+    api.get("/empresas")
+      .then((response) => {
+        if (!ativo) return;
+        const dados = Array.isArray(response.data) ? response.data : [];
+        setEmpresas(dados.filter((empresa) => empresa.codStatus !== false));
+        setErro("");
+      })
+      .catch((error) => {
+        console.error("Erro ao carregar empresas:", error);
+        if (ativo) setErro("Não foi possível carregar as empresas. Confira se o back-end e o banco de dados estão funcionando.");
+      })
+      .finally(() => {
+        if (ativo) setCarregando(false);
+      });
+
+    return () => { ativo = false; };
+  }, []);
+
+  const empresasFiltradas = useMemo(() => {
+    const termo = pesquisa.trim().toLocaleLowerCase("pt-BR");
+    if (!termo) return empresas;
+
+    return empresas.filter((empresa) => {
+      const campos = [
+        empresa.nome,
+        empresa.descricao,
+        empresa.categoria?.nome,
+        empresa.cidade?.nome,
+        empresa.cidade?.estado?.sigla,
+      ];
+      return campos.some((campo) => String(campo || "").toLocaleLowerCase("pt-BR").includes(termo));
+    });
+  }, [empresas, pesquisa]);
+
   return (
     <div className="explorar-page">
-
       <nav className="explorar-navbar">
         <div className="logo">Vitrine</div>
-
         <div className="nav-links">
           <button onClick={inicio}>Início</button>
-          <button>Explorar</button>
-          <button>Favoritos</button>
-          <button>Usuário</button>
+          <button type="button" aria-current="page">Explorar</button>
+          <button type="button" disabled title="Funcionalidade ainda não conectada ao back-end">Favoritos</button>
+          <button type="button" disabled title="Funcionalidade ainda não conectada ao back-end">Usuário</button>
         </div>
       </nav>
 
       <main className="explorar-content">
-
         <h1>Encontre estabelecimentos<br />e serviços locais</h1>
+        <p className="explorar-description">Encontre empresas, produtos e serviços próximos de você.</p>
 
-        <p className="explorar-description">
-          Encontre empresas, produtos e serviços próximos de você.
-        </p>
-
-        <div className="search-area">
+        <form className="search-area" onSubmit={(e) => e.preventDefault()}>
           <input
-            type="text"
+            type="search"
             placeholder="Pesquise por empresa, serviço ou categoria"
+            aria-label="Pesquisar empresas"
+            value={pesquisa}
+            onChange={(e) => setPesquisa(e.target.value)}
           />
+          <button type="submit">Pesquisar</button>
+        </form>
 
-          <button>Pesquisar</button>
-        </div>
+        <h2>Empresas cadastradas</h2>
 
-        <h2>Categorias</h2>
-
-        <div className="categories">
-          <button>Serviços Técnicos</button>
-          <button>Vestuário & Moda</button>
-          <button>Beleza & Estética</button>
-          <button>Alimentação</button>
-        </div>
-
-        <h2>Empresas em destaque</h2>
+        {carregando && <p role="status">Carregando empresas...</p>}
+        {!carregando && erro && <p role="alert">{erro}</p>}
+        {!carregando && !erro && empresasFiltradas.length === 0 && (
+          <p>{empresas.length === 0 ? "Ainda não há empresas cadastradas." : "Nenhuma empresa corresponde à sua pesquisa."}</p>
+        )}
 
         <div className="business-grid">
-
-          <div className="business-card">
-            <div className="business-image">
-              Foto da empresa
-            </div>
-
-            <div className="business-info">
-              <h3>Freddy Fazbear Pizzaria</h3>
-              <span>Pizzaria • Barueri, SP</span>
-
-              <p>
-                Uma pizzaria local com produtos e serviços para seus clientes.
-              </p>
-
-              <div className="business-rating">
-                ★ 3.45 (67 avaliações)
+          {empresasFiltradas.map((empresa) => (
+            <article className="business-card" key={empresa.id}>
+              <div className="business-image">Foto da empresa</div>
+              <div className="business-info">
+                <h3>{empresa.nome}</h3>
+                <span>
+                  {empresa.categoria?.nome || "Categoria não informada"}
+                  {empresa.cidade?.nome ? ` • ${empresa.cidade.nome}` : ""}
+                  {empresa.cidade?.estado?.sigla ? `, ${empresa.cidade.estado.sigla}` : ""}
+                </span>
+                <p>{empresa.descricao || "Conheça os produtos e serviços oferecidos por esta empresa."}</p>
+                <button type="button" onClick={() => perfilEmpresa(empresa)}>Ver perfil</button>
               </div>
-
-              <button onClick={() => perfilEmpresa("freddy")}>
-                Ver perfil e catálogo
-              </button>
-            </div>
-          </div>
-
-          <div className="business-card">
-            <div className="business-image">
-              Foto da empresa
-            </div>
-
-            <div className="business-info">
-              <h3>The Monica Club</h3>
-              <span>Pizzaria • São Paulo, SP</span>
-
-              <p>
-                Conheça os produtos e serviços oferecidos por esta empresa.
-              </p>
-
-              <div className="business-rating">
-                ★ 4.3 (401 avaliações)
-              </div>
-
-              <button onClick={() => perfilEmpresa("monica")}>
-                Ver perfil e catálogo
-              </button>
-            </div>
-          </div>
-
+            </article>
+          ))}
         </div>
-
       </main>
     </div>
   );
