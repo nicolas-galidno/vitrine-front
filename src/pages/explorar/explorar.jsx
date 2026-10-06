@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import api from "../../services/api";
+import { categorias as listaCategorias } from "../../data/categorias";
 import "./explorar.css";
-const categorias = ["Todas", "Serviços Técnicos", "Vestuário & Moda", "Beleza & Estética", "Alimentação"];
+const categorias = ["Todas", ...listaCategorias];
 function Explorar({ inicio, perfilEmpresa, favoritosLista = [], alternarFavorito, favoritos, usuario }) {
   const [empresas, setEmpresas] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
@@ -25,9 +26,9 @@ function Explorar({ inicio, perfilEmpresa, favoritosLista = [], alternarFavorito
   const empresasFiltradas = useMemo(() => {
     const termo = pesquisa.trim().toLocaleLowerCase("pt-BR");
     return empresas.filter((empresa) => {
-      const campos = [empresa.nome, empresa.descricao, empresa.categoria?.nome, empresa.cidade?.nome, empresa.cidade?.estado?.sigla];
+      const campos = [empresa.nome, empresa.descricao, empresa.categoria?.nome, empresa.cidade?.nome, empresa.cidade?.estado?.sigla, empresa.logradouro];
       const correspondeTexto = !termo || campos.some((campo) => String(campo || "").toLocaleLowerCase("pt-BR").includes(termo));
-      const correspondeCategoria = categoriaAtiva === "Todas" || String(empresa.categoria?.nome || "").toLocaleLowerCase("pt-BR").includes(categoriaAtiva.toLocaleLowerCase("pt-BR"));
+      const correspondeCategoria = categoriaAtiva === "Todas" || String(empresa.categoria?.nome || "").toLocaleLowerCase("pt-BR") === categoriaAtiva.toLocaleLowerCase("pt-BR");
       return correspondeTexto && correspondeCategoria;
     });
   }, [empresas, pesquisa, categoriaAtiva]);

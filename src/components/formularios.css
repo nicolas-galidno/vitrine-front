@@ -1,0 +1,10 @@
+.campo-multiplo{display:flex;flex-direction:column;gap:8px;min-width:0}
+.campo-multiplo .campo-titulo{font-size:12px;color:#ddd}
+.campo-multiplo .telefone-linha{display:flex;gap:8px}
+.campo-multiplo .telefone-linha input{flex:1;min-width:0;height:44px;padding:0 12px;background:#080808;border:1px solid #393939;border-radius:7px;color:#fff;font-size:12px}
+.campo-multiplo .telefone-linha input::placeholder{color:#666}
+.campo-multiplo .telefone-remover{width:44px;flex:none;background:#080808;border:1px solid #393939;border-radius:7px;color:#bbb;font-size:18px;cursor:pointer}
+.campo-multiplo .telefone-remover:hover{border-color:#fff;color:#fff}
+.campo-multiplo .telefone-adicionar{align-self:flex-start;background:none;border:0;padding:4px 0;color:#bbb;font-size:12px;cursor:pointer;text-decoration:underline}
+.campo-multiplo .telefone-adicionar:hover{color:#fff}
+.campo-aviso{font-size:10px;color:#999;line-height:1.5}
