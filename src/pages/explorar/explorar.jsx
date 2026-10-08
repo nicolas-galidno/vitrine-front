@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import api from "../../services/api";
-import { categorias as listaCategorias } from "../../data/categorias";
+import { nomesCategorias } from "../../data/categorias";
 import "./explorar.css";
-const categorias = ["Todas", ...listaCategorias];
+const categorias = ["Todas", ...nomesCategorias];
 function Explorar({ inicio, perfilEmpresa, favoritosLista = [], alternarFavorito, favoritos, usuario }) {
   const [empresas, setEmpresas] = useState([]);
   const [pesquisa, setPesquisa] = useState("");

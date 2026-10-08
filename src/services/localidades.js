@@ -1,12 +1,17 @@
-// Cidades de cada estado, vindas da API pública do IBGE (todos os municípios do Brasil).
-// Se o back-end passar a expor /estados e /cidades, basta trocar a implementação aqui.
-const cache = new Map();
+import api from "./api";
+
+// Cidades vêm do back-end (GET /api/v1/cidade), porque o cadastro da empresa precisa do id da cidade.
+// A lista inteira é baixada uma vez e filtrada por estado aqui no front.
+let todas = null;
 
 export async function listarCidades(uf) {
-  if (cache.has(uf)) return cache.get(uf);
-  const resposta = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios?orderBy=nome`);
-  if (!resposta.ok) throw new Error(`IBGE respondeu ${resposta.status}`);
-  const nomes = (await resposta.json()).map((municipio) => municipio.nome);
-  cache.set(uf, nomes);
-  return nomes;
+  if (!todas) {
+    const { data } = await api.get("/cidade");
+    if (Array.isArray(data) && data.length > 0) todas = data;
+    else return [];
+  }
+  return todas
+    .filter((cidade) => cidade.estado?.sigla === uf)
+    .map(({ id, nome }) => ({ id, nome }))
+    .sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
 }

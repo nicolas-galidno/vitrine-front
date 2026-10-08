@@ -36,7 +36,7 @@ function App() {
   };
 
   if (pagina === "login") return <Login voltar={navegacao.inicio} cadastro={navegacao.cadastro} aoEntrar={(email) => { setEmailUsuario(email); setPagina("conta"); }} />;
-  if (pagina === "cadastro") return <Cadastro voltar={navegacao.inicio} login={navegacao.login} aoCriar={(tipo, email) => { setTipoConta(tipo); setEmailUsuario(email); setPagina(tipo === "empreendedor" ? "empresa" : "conta"); }} />;
+  if (pagina === "cadastro") return <Cadastro voltar={navegacao.inicio} login={navegacao.login} aoCriar={(tipo, email) => { setTipoConta(tipo); setEmailUsuario(email); setPagina(tipo === "empresa" ? "empresa" : "conta"); }} />;
   if (pagina === "explorar") return <Explorar {...navegacao} perfilEmpresa={abrirPerfil} favoritosLista={favoritos} alternarFavorito={alternarFavorito} />;
   if (pagina === "perfilEmpresa") return <PerfilEmpresa {...navegacao} voltar={navegacao.explorar} empresa={empresaSelecionada} favoritos={favoritos} alternarFavorito={alternarFavorito} />;
   if (pagina === "empresa") return <Empresa {...navegacao} />;
