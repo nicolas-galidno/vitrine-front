@@ -9,7 +9,7 @@ export function paraTelefone(texto) {
 
 // POST /api/v1/usuario
 export const criarUsuario = ({ nome, email, senha, telefone }) =>
-  api.post("/usuario", { nome, email, senha, telefones: [paraTelefone(telefone)] });
+  api.post("/usuario", { nome, email, senha, telefone: paraTelefone(telefone) });
 
 // POST /api/v1/empresas (categoria e cidade vão como objeto com id, como a entidade Empresas espera)
 export const criarEmpresa = ({ nome, email, senha, cnpj, telefones, descricao, logradouro, categoriaId, cidadeId }) =>
@@ -20,7 +20,7 @@ export const criarEmpresa = ({ nome, email, senha, cnpj, telefones, descricao, l
     senha,
     descricao: descricao || null,
     logradouro,
-    telefones: telefones.map(paraTelefone),
+    telefones: telefones.map(telefone => ({ telefone: paraTelefone(telefone) })),
     categoria: categoriaId ? { id: Number(categoriaId) } : null,
     cidade: cidadeId ? { id: Number(cidadeId) } : null,
   });

@@ -37,10 +37,11 @@ function Cadastro({ voltar, login, aoCriar }) {
     setEnviando(true); setMensagem("");
     try {
       const base = { nome: nome.trim(), email: email.trim(), senha };
-      if (ehEmpresa) await criarEmpresa({ ...base, cnpj, telefones: listaTelefones, categoriaId, cidadeId: local.cidadeId, logradouro: logradouro.trim(), descricao: descricao.trim() });
-      else await criarUsuario({ ...base, telefone });
+      const resposta = ehEmpresa
+        ? await criarEmpresa({ ...base, cnpj, telefones: listaTelefones, categoriaId, cidadeId: local.cidadeId, logradouro: logradouro.trim(), descricao: descricao.trim() })
+        : await criarUsuario({ ...base, telefone });
       setMensagem("Conta criada com sucesso!");
-      aoCriar?.(tipoConta, email.trim());
+      aoCriar?.(tipoConta, email.trim(), resposta.data);
     } catch (error) {
       setMensagem(mensagemDeErro(error));
     } finally { setEnviando(false); }

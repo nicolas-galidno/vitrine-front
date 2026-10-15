@@ -14,6 +14,7 @@ function App() {
   const [favoritos, setFavoritos] = useState([]);
   const [tipoConta, setTipoConta] = useState("cliente");
   const [emailUsuario, setEmailUsuario] = useState("");
+  const [contaAtual, setContaAtual] = useState(null);
 
   const abrirPerfil = (empresa) => {
     setEmpresaSelecionada(empresa);
@@ -35,13 +36,13 @@ function App() {
     cadastro: () => setPagina("cadastro"),
   };
 
-  if (pagina === "login") return <Login voltar={navegacao.inicio} cadastro={navegacao.cadastro} aoEntrar={(email) => { setEmailUsuario(email); setPagina("conta"); }} />;
-  if (pagina === "cadastro") return <Cadastro voltar={navegacao.inicio} login={navegacao.login} aoCriar={(tipo, email) => { setTipoConta(tipo); setEmailUsuario(email); setPagina(tipo === "empresa" ? "empresa" : "conta"); }} />;
+  if (pagina === "login") return <Login voltar={navegacao.inicio} cadastro={navegacao.cadastro} aoEntrar={(email, tipo, conta) => { setEmailUsuario(email); setTipoConta(tipo || "cliente"); setContaAtual(conta || null); setPagina(tipo === "empresa" ? "empresa" : "conta"); }} />;
+  if (pagina === "cadastro") return <Cadastro voltar={navegacao.inicio} login={navegacao.login} aoCriar={(tipo, email, conta) => { setTipoConta(tipo); setEmailUsuario(email); setContaAtual(conta || null); setPagina(tipo === "empresa" ? "empresa" : "conta"); }} />;
   if (pagina === "explorar") return <Explorar {...navegacao} perfilEmpresa={abrirPerfil} favoritosLista={favoritos} alternarFavorito={alternarFavorito} />;
   if (pagina === "perfilEmpresa") return <PerfilEmpresa {...navegacao} voltar={navegacao.explorar} empresa={empresaSelecionada} favoritos={favoritos} alternarFavorito={alternarFavorito} />;
-  if (pagina === "empresa") return <Empresa {...navegacao} />;
+  if (pagina === "empresa") return <Empresa {...navegacao} conta={contaAtual} />;
   if (pagina === "favoritos") return <Favoritos {...navegacao} favoritos={favoritos} abrirPerfil={abrirPerfil} alternarFavorito={alternarFavorito} />;
-  if (pagina === "conta") return <Conta {...navegacao} email={emailUsuario} tipoConta={tipoConta} />;
+  if (pagina === "conta") return <Conta {...navegacao} email={emailUsuario} tipoConta={tipoConta} conta={contaAtual} />;
 
   return <Home entrar={navegacao.login} registrar={navegacao.cadastro} explorar={navegacao.explorar} empresa={navegacao.painel} favoritos={navegacao.favoritos} usuario={navegacao.usuario} />;
 }
